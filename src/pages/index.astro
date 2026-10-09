@@ -1,15 +1,23 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
-import TagBadge from '../components/TagBadge.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+// Group posts by publication year, newest year first.
+const years = [...new Set(posts.map((p) => p.data.pubDate.getFullYear()))].sort((a, b) => b - a);
+const byYear = years.map((year) => ({
+	year,
+	posts: posts.filter((p) => p.data.pubDate.getFullYear() === year),
+}));
+
+const AI_NOTE =
+	'Some posts were edited and translated with the help of artificial intelligence tools. All ideas, opinions, and technical content are my own.';
 ---
 
 <!doctype html>
@@ -18,77 +26,162 @@ const posts = (await getCollection('blog')).sort(
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
-		<Header />
-		<main>
-			<ul>
-				{
-					posts.map((post) => (
-						<li>
-							<span class="date">
-								<FormattedDate date={post.data.pubDate} />
-							</span>
-							<h2>
-								<a href={`/${post.id}/`}>{post.data.title}</a>
-							</h2>
-							<p class="description">{post.data.description}</p>
-							{post.data.tags.length > 0 && (
-								<div class="tags">
-									{post.data.tags.map((tag: string) => (
-										<TagBadge tag={tag} />
-									))}
-								</div>
-							)}
-						</li>
-					))
-				}
-			</ul>
+		<Header variant="home" />
+		<main class="page">
+			{
+				byYear.map(({ year, posts: yearPosts }) => (
+					<section class="year">
+						<div class="section-bar">
+							<span>Writing</span>
+							<span>{year}</span>
+						</div>
+						<ol class="post-list">
+							{yearPosts.map((post) => (
+								<li class="post-item">
+									<h2 class="post-title">
+										<a href={`/${post.id}/`}>{post.data.title}</a>
+									</h2>
+									<div class="post-meta-col">
+										<span class="post-date">
+											<FormattedDate date={post.data.pubDate} short />
+										</span>
+										{post.data.tags.length > 0 && (
+											<span class="post-tags">
+												{post.data.tags.slice(0, 3).join(' · ')}
+											</span>
+										)}
+									</div>
+									<p class="post-desc">{post.data.description}</p>
+								</li>
+							))}
+						</ol>
+					</section>
+				))
+			}
+			<p class="ai-note">{AI_NOTE}</p>
 		</main>
-		<Footer />
 	</body>
 </html>
 
 <style>
-	ul {
+	main {
+		padding-bottom: 56px;
+	}
+	.year + .year {
+		margin-top: 38px;
+	}
+	.section-bar {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		margin-top: 38px;
+		padding-bottom: 8px;
+		border-bottom: 2px solid var(--rule-strong);
+		font-family: var(--font-mono);
+		font-size: 10.5px;
+		line-height: 1;
+		font-weight: 500;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink);
+	}
+	.post-list {
 		list-style: none;
 		margin: 0;
 		padding: 0;
 	}
-	li {
-		margin-bottom: 2.5em;
-		padding-bottom: 2.5em;
-		border-bottom: 1px solid var(--border);
+	.post-item {
+		display: grid;
+		grid-template-columns: 1fr 210px;
+		column-gap: 32px;
+		align-items: start;
+		padding: 22px 0;
+		border-bottom: 1px solid var(--rule);
 	}
-	li:last-child {
-		border-bottom: none;
+	.post-title {
+		grid-column: 1;
+		grid-row: 1;
+		font-family: var(--font-sans);
+		font-size: 19px;
+		line-height: 1.4;
+		font-weight: 500;
+		letter-spacing: -0.015em;
 	}
-	.date {
-		color: var(--text-muted);
-		font-size: 0.82rem;
-		letter-spacing: 0.02em;
+	.post-title a {
+		color: var(--ink-strong);
 	}
-	h2 {
-		margin: 0.3em 0 0.3em 0;
-		font-size: 1.3em;
-		font-weight: 600;
-		line-height: 1.3;
-	}
-	h2 a {
-		color: var(--text);
-		text-decoration: none;
-	}
-	h2 a:hover {
+	.post-title a:hover {
 		color: var(--accent);
-		text-decoration: none;
 	}
-	.description {
-		color: var(--text-secondary);
-		margin: 0 0 0.6em 0;
-		font-size: 0.92em;
-		line-height: 1.6;
-	}
-	.tags {
+	.post-meta-col {
+		grid-column: 2;
+		grid-row: 1;
 		display: flex;
-		gap: 0.4em;
-		flex-wrap: wrap;
+		flex-direction: column;
+		gap: 6px;
+		text-align: right;
+	}
+	.post-date,
+	.post-tags {
+		font-family: var(--font-mono);
+		font-size: 11.5px;
+		line-height: 1.5;
+		color: var(--muted);
+	}
+	.post-desc {
+		grid-column: 1 / -1;
+		margin-top: 10px;
+		max-width: 62ch;
+		font-family: var(--font-sans);
+		font-size: 13.5px;
+		line-height: 1.62;
+		color: var(--body);
+	}
+	.ai-note {
+		margin-top: 32px;
+		max-width: 56ch;
+		font-family: var(--font-sans);
+		font-size: 11.5px;
+		line-height: 1.7;
+		color: var(--faint);
+	}
+
+	@media (max-width: 720px) {
+		.section-bar {
+			margin-top: 22px;
+		}
+		.post-item {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			padding: 18px 0;
+		}
+		.post-title {
+			font-size: 17px;
+			line-height: 1.38;
+			letter-spacing: -0.012em;
+		}
+		.post-date,
+		.post-tags {
+			font-size: 11px;
+		}
+		.post-meta-col {
+			display: contents;
+		}
+		.post-date {
+			order: 1;
+			text-align: left;
+		}
+		.post-title {
+			order: 2;
+		}
+		.post-desc {
+			order: 3;
+			margin-top: 0;
+		}
+		.post-tags {
+			order: 4;
+			text-align: left;
+		}
 	}
 </style>

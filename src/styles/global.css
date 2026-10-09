@@ -1,162 +1,179 @@
+/* ---------------------------------------------------------------------------
+   Design tokens — from the melkord.github.io template handoff.
+   Colours live as custom properties on :root, overridden on [data-theme="dark"].
+   "muted / body / faint / rule" are alpha on the theme ink, not separate hues.
+--------------------------------------------------------------------------- */
 :root {
-  --bg: #ffffff;
-  --bg-secondary: #f6f6f6;
-  --text: #1a1a1a;
-  --text-secondary: #555;
-  --text-muted: #999;
-  --border: #e5e5e5;
-  --accent: #3b5998;
-  --accent-hover: #2d4373;
-  --code-bg: #f4f4f4;
-  --tag-bg: #f0f0f0;
+  --bg: #f6f3ea;
+  --ink: #16150f;
+  --ink-strong: #16150f;
+  --muted: rgb(22 21 15 / 0.45);
+  --body: rgb(22 21 15 / 0.6);
+  --prose: rgb(22 21 15 / 0.86);
+  --faint: rgb(22 21 15 / 0.42);
+  --rule: rgb(22 21 15 / 0.12);
+  --rule-strong: var(--ink);
+  --accent: #8a3f1d;
+  --accent-rule: rgb(138 63 29 / 0.35);
+  --chip-border: rgb(22 21 15 / 0.16);
+  --chip-ink: rgb(22 21 15 / 0.55);
+  --callout-bg: rgb(138 63 29 / 0.05);
+  --quote-rule: rgb(22 21 15 / 0.2);
+  --quote-ink: rgb(22 21 15 / 0.7);
+  --code-inline-bg: rgb(22 21 15 / 0.06);
+  --toggle-off: rgb(22 21 15 / 0.4);
+  --code-bg: #16150f;
+  --code-ink: #f2ece2;
+  --code-bar-bg: rgb(250 248 244 / 0.07);
+  --code-bar-ink: rgb(250 248 244 / 0.55);
+
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 [data-theme="dark"] {
-  --bg: #111111;
-  --bg-secondary: #1a1a1a;
-  --text: #e0e0e0;
-  --text-secondary: #a0a0a0;
-  --text-muted: #666;
-  --border: #2a2a2a;
-  --accent: #7eaadc;
-  --accent-hover: #a3c4ea;
-  --code-bg: #1a1a1a;
-  --tag-bg: #222;
+  --bg: #17191b;
+  --ink: #e8e4dc;
+  --ink-strong: #f0ece4;
+  --muted: rgb(232 228 220 / 0.42);
+  --body: rgb(232 228 220 / 0.6);
+  --prose: rgb(232 228 220 / 0.86);
+  --faint: rgb(232 228 220 / 0.4);
+  --rule: rgb(232 228 220 / 0.14);
+  --rule-strong: rgb(232 228 220 / 0.75);
+  --accent: #dda253;
+  --accent-rule: rgb(221 162 83 / 0.35);
+  --chip-border: rgb(232 228 220 / 0.18);
+  --chip-ink: rgb(232 228 220 / 0.55);
+  --callout-bg: rgb(221 162 83 / 0.07);
+  --code-inline-bg: rgb(232 228 220 / 0.08);
+  --toggle-off: rgb(232 228 220 / 0.4);
+  --quote-rule: rgb(232 228 220 / 0.22);
+  --quote-ink: rgb(232 228 220 / 0.7);
+  --code-bg: #101214;
+  --code-bar-bg: rgb(232 228 220 / 0.05);
+  --code-bar-ink: rgb(232 228 220 / 0.5);
 }
 
-* {
+/* ------------------------------------------------------------------ reset */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   padding: 0;
   background-color: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-  font-size: 17px;
-  line-height: 1.7;
-  word-wrap: break-word;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16.5px;
+  line-height: 1.72;
   overflow-wrap: break-word;
-  transition: background-color 0.2s, color 0.2s;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-main {
-  width: 680px;
-  max-width: calc(100% - 3em);
-  margin: 0 auto;
-  padding: 2.5em 0 4em;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 400;
+  text-wrap: pretty;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 0 0 0.5rem 0;
-  color: var(--text);
-  line-height: 1.3;
-  font-weight: 600;
-}
-h1 { font-size: 2em; }
-h2 { font-size: 1.5em; }
-h3 { font-size: 1.25em; }
-h4 { font-size: 1.1em; }
-
-strong, b {
-  font-weight: 600;
+p {
+  margin: 0;
+  text-wrap: pretty;
 }
 
 a {
   color: var(--accent);
   text-decoration: none;
-}
-a:hover {
-  color: var(--accent-hover);
-  text-decoration: underline;
-}
-
-p {
-  margin-bottom: 1.2em;
+  transition: color 0.12s ease, border-color 0.12s ease;
 }
 
 img {
   max-width: 100%;
   height: auto;
-  border-radius: 6px;
-}
-
-code {
-  padding: 2px 6px;
-  background-color: var(--code-bg);
-  border-radius: 4px;
-  font-size: 0.9em;
-  font-family: 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
-}
-
-pre {
-  padding: 1.2em 1.5em;
-  border-radius: 8px;
-  overflow-x: auto;
-  border: 1px solid var(--border);
-  font-size: 0.88em;
-  line-height: 1.6;
-}
-pre > code {
-  all: unset;
-  font-family: 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
-  background-color: transparent !important;
-}
-
-blockquote {
-  border-left: 3px solid var(--accent);
-  padding: 0 0 0 1.2em;
-  margin: 1.5em 0;
-  color: var(--text-secondary);
 }
 
 hr {
   border: none;
-  border-top: 1px solid var(--border);
-  margin: 2em 0;
+  border-top: 1px solid var(--rule);
+  margin: 38px 0;
 }
 
-table {
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
+/* --------------------------------------------------------------- layout */
+.page {
   width: 100%;
-  border-collapse: collapse;
-  margin: 1.5em 0;
+  margin: 0 auto;
+  padding: 0 60px;
+  max-width: 760px;
 }
-th, td {
-  padding: 0.6em 1em;
-  border-bottom: 1px solid var(--border);
-  text-align: left;
+.page--post {
+  max-width: 804px;
+  padding: 0 72px;
 }
-th {
-  font-weight: 600;
-  color: var(--text-secondary);
-  font-size: 0.85em;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.page--narrow {
+  max-width: 640px;
+  padding: 0 56px;
 }
 
 @media (max-width: 720px) {
-  body {
-    font-size: 16px;
-  }
-  main {
-    max-width: calc(100% - 2em);
-    padding: 1.5em 0 3em;
+  .page,
+  .page--post,
+  .page--narrow {
+    padding: 0 24px;
   }
 }
 
+/* ---------------------------------------------------------- shared bits */
+.eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
 .sr-only {
-  border: 0;
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
   padding: 0;
   margin: 0;
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
   overflow: hidden;
-  clip: rect(1px 1px 1px 1px);
   clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
   white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

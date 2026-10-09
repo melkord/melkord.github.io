@@ -1,48 +1,79 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 import { SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`404 - ${SITE_TITLE}`} description="Page not found" />
+		<BaseHead title={`404 — ${SITE_TITLE}`} description="Page not found" />
 	</head>
 	<body>
-		<Header />
-		<main>
-			<div class="not-found">
-				<h1>404</h1>
-				<p>This page doesn't exist.</p>
-				<a href="/">&larr; Back to the blog</a>
+		<Header variant="inner" width="narrow" back={false} toggle={false} />
+		<main class="page page--narrow">
+			<p class="code">404</p>
+			<h1 class="title">This URL returned null instead of throwing.</h1>
+			<p class="body">
+				The page isn't here. The archive probably has what you were looking for.
+			</p>
+			<div class="links">
+				<a href="/">All posts</a>
+				<a href="/about" class="secondary">About</a>
 			</div>
 		</main>
-		<Footer />
 	</body>
 </html>
 
 <style>
-	.not-found {
-		text-align: center;
-		padding: 4em 0;
+	main {
+		padding-bottom: 72px;
 	}
-	.not-found h1 {
-		font-size: 4em;
-		color: var(--text-muted);
-		margin-bottom: 0.2em;
+	.code {
+		margin-top: 80px;
+		font-family: var(--font-mono);
+		font-size: 12px;
+		line-height: 1;
+		letter-spacing: 0.16em;
+		color: var(--accent);
 	}
-	.not-found p {
-		color: var(--text-secondary);
-		margin-bottom: 1.5em;
+	.title {
+		margin-top: 16px;
+		max-width: 20ch;
+		font-family: var(--font-serif);
+		font-size: 36px;
+		line-height: 1.16;
+		font-weight: 300;
+		letter-spacing: -0.015em;
 	}
-	.not-found a {
-		color: var(--text-muted);
-		text-decoration: none;
-		font-size: 0.9em;
+	.body {
+		margin: 16px 0 40px;
+		max-width: 46ch;
+		font-family: var(--font-sans);
+		font-size: 15px;
+		line-height: 1.7;
+		color: var(--body);
 	}
-	.not-found a:hover {
-		color: var(--text);
+	.links {
+		display: flex;
+		gap: 20px;
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: 500;
+	}
+	.links .secondary {
+		color: var(--faint);
+	}
+	.links .secondary:hover {
+		color: var(--ink);
+	}
+
+	@media (max-width: 720px) {
+		.code {
+			margin-top: 56px;
+		}
+		.title {
+			font-size: 30px;
+		}
 	}
 </style>

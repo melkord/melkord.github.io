@@ -1,9 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-    <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="100" font-weight="700" fill="#000">M</text>
-    <style>
-        text { fill: #000; }
-        @media (prefers-color-scheme: dark) {
-            text { fill: #FFF; }
-        }
-    </style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect class="bg" width="32" height="32" fill="#8a3f1d"></rect>
+  <path class="fg" d="M12 9 L19.5 16 L12 23" fill="none" stroke="#f6f3ea" stroke-width="3.4" stroke-linecap="square" stroke-linejoin="miter"></path>
+  
 </svg>

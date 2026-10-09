@@ -1,7 +1,9 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+
+const GITHUB = 'https://github.com/melkord';
+const LINKEDIN = 'https://www.linkedin.com/in/andreaterruggia';
 ---
 
 <!doctype html>
@@ -10,51 +12,102 @@ import Header from '../components/Header.astro';
 		<BaseHead title="About" description="About Andrea Terruggia" />
 	</head>
 	<body>
-		<Header />
-		<main>
-			<a href="/" class="back-link">&larr; Read the blog</a>
-			<div class="prose">
-				<h1>About</h1>
-				<p>
-					Software engineer, 15+ years of experience. My stack is TypeScript across the board: React, NestJS, Express, PostgreSQL. Over the years I have worked with most of what the web ecosystem has to offer: Vue, Django, Python, PHP, Redis, Docker, Prisma, Jest, Bun, Bitbucket Pipelines, Jenkins, Google Cloud Platform, and probably a few others I'm forgetting.
-				</p>
-				<p>
-					Currently Senior Backend Developer at a vehicle auction startup. Previously spent 6 years at Hootsuite.
-				</p>
-				<p>
-					Based in Italy, fully remote.
-				</p>
-				<p>
-					Outside work: climbing, mountains, and a German Shorthaired Pointer that needs more exercise than me.
-				</p>
-				</div>
+		<Header variant="inner" width="narrow" back label="About" />
+		<main class="page page--narrow">
+			<h1 class="about-title">Andrea Terruggia</h1>
+			<p class="about-p">
+				Software engineer, 15+ years in. My stack is TypeScript end to end &mdash; React,
+				NestJS, Express, PostgreSQL &mdash; and over the years most of the rest of the web
+				ecosystem too: Vue, Django, Python, PHP, Redis, Docker, Prisma, Bun, Bitbucket
+				Pipelines, Jenkins, GCP.
+			</p>
+			<p class="about-p">
+				Currently Senior Backend Developer at a vehicle-auction startup. Before that, six
+				years at Hootsuite. Based in Italy, fully remote.
+			</p>
+			<p class="about-p">
+				I write here when a problem took long enough to be worth explaining. Outside work:
+				climbing, mountains, and a German Shorthaired Pointer that needs more exercise than I
+				do.
+			</p>
+			<dl class="about-dl">
+				<dt>Stack</dt>
+				<dd>TypeScript &middot; NestJS &middot; PostgreSQL &middot; Prisma &middot; Bun &middot; React</dd>
+				<dt>Elsewhere</dt>
+				<dd class="about-links">
+					<a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
+					<a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+				</dd>
+				<dt>Contact</dt>
+				<dd><a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a></dd>
+			</dl>
 		</main>
-		<Footer />
 	</body>
 </html>
 
 <style>
-	.back-link {
-		display: inline-block;
-		margin-bottom: 2em;
-		color: var(--text-muted);
-		text-decoration: none;
-		font-size: 0.88em;
+	main {
+		padding-bottom: 56px;
 	}
-	.back-link:hover {
-		color: var(--text);
-		text-decoration: none;
+	.about-title {
+		margin-top: 46px;
+		font-family: var(--font-serif);
+		font-size: 34px;
+		line-height: 1.16;
+		font-weight: 300;
+		letter-spacing: -0.015em;
 	}
-	.prose {
-		width: 680px;
-		max-width: calc(100% - 2em);
-		margin: auto;
+	.about-p {
+		margin-top: 16px;
+		max-width: 52ch;
+		font-family: var(--font-sans);
+		font-size: 16px;
+		line-height: 1.72;
+		color: var(--prose);
 	}
-	.prose h1 {
-		color: var(--text);
+	.about-p :global(a) {
+		color: var(--accent);
+		border-bottom: 1px solid var(--accent-rule);
 	}
-	.prose p {
-		color: var(--text-secondary);
-		line-height: 1.8;
+	.about-dl {
+		margin: 38px 0 0;
+		display: grid;
+		grid-template-columns: 96px 1fr;
+		gap: 12px 24px;
+		font-family: var(--font-sans);
+		font-size: 14px;
+		line-height: 1.6;
+	}
+	.about-dl dt {
+		font-family: var(--font-mono);
+		font-size: 11.5px;
+		line-height: 1.7;
+		color: var(--muted);
+	}
+	.about-dl dd {
+		margin: 0;
+		color: var(--prose);
+	}
+	.about-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 14px;
+	}
+	.about-dl a {
+		color: var(--accent);
+		border-bottom: 1px solid var(--accent-rule);
+	}
+	.about-dl a:hover {
+		border-bottom-color: var(--accent);
+	}
+
+	@media (max-width: 720px) {
+		.about-dl {
+			grid-template-columns: 1fr;
+			gap: 4px 0;
+		}
+		.about-dl dt {
+			margin-top: 12px;
+		}
 	}
 </style>

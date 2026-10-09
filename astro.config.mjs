@@ -8,10 +8,8 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   markdown: {
     shikiConfig: {
-      themes: {
-        light: "github-light",
-        dark: "houston",
-      },
+      // Code blocks render on a dark surface in both site themes.
+      theme: "houston",
     },
   },
 });
